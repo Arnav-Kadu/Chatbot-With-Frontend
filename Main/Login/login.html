@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Login</title>
+    <link rel="stylesheet" href="login-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to MindBot</h2>
+        <!-- Removed the form for Firebase Google login as it's not needed -->
+        <div class="input-group">
+            <label for="loginId">Login ID:</label>
+            <input type="text" id="loginId" name="loginId">
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <!-- This button should not be of type submit to prevent form submission -->
+        <button id="google-login-button" class="google-button"><i class="fab fa-google"></i> Google Login</button>
+    </div>
+    <script src='auth.js' defer type="module"></script>
+</body>
+</html>
