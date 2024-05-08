@@ -88,10 +88,6 @@ button.google-button {
     margin-top: 20px;
 }
 
-button #login-button:hover {
-    background-color: var(--color-button-hover);
-}
-
 /* Utility */
 .hidden {
     display: none;
@@ -100,3 +96,22 @@ button #login-button:hover {
 .visible {
     display: block;
 }
+/* Corrected CSS */
+button#login-button {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+button#login-button:hover {
+    background-color: var(--color-button-hover);
+}
+
+
