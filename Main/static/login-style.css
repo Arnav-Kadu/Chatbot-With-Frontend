@@ -63,7 +63,7 @@ button#login-button {
     transition: background-color 0.3s ease;
     margin-top: 20px;
 }
-button #login-button {
+button #signup-button {
     width: 50%;
     padding: 10px;
     border: none;
@@ -87,7 +87,18 @@ button.google-button {
     transition: background-color 0.3s ease;
     margin-top: 20px;
 }
-
+button.go-to-button {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
 /* Utility */
 .hidden {
     display: none;

@@ -1,108 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>Mind Full</title>
-</head>
-<body>
+  </head>
+  <body>
     <nav id="sidebar">
-        <div class="float-top">
-            <div class="sidebar-controls">
-                <button class="new-chat"><i class="fa fa-plus"></i> New chat</button>
-                <button class="hide-sidebar"><i class="fa fa-chevron-left"></i></button>
-                <button class="show-sidebar"><i class="fa fa-chevron-right"></i></button>
-            </div>
-            <div class="user-menu">
-                <button id="user-menu-button">
-                    <i class="user-icon">u</i>
-                    <span id="username">Loading...</span>
-                    <i class="fa fa-ellipsis dots"></i>
-                </button>
-                <ul id="user-menu-list">
-                    <li><button id="google-logout-button" class="google-button">Log out</button></li>
-                </ul>
-            </div>            
+      <div class="float-top">
+        <div class="sidebar-controls">
+          <button class="new-chat" id="new-chat-button">
+            <i class="fa fa-plus"></i> New chat
+          </button>
+          <button class="hide-sidebar">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          <button class="show-sidebar">
+            <i class="fa fa-chevron-right"></i>
+          </button>
         </div>
+        <div class="user-menu">
+          <button id="user-menu-button">
+            <i id="initial" class="user-icon">u</i>
+            <span id="username">Loading...</span>
+            <i class="fa fa-ellipsis dots"></i>
+          </button>
+          <ul id="user-menu-list">
+            <li>
+              <button id="google-logout-button" class="google-button">
+                Log out
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <main>
-        <div class="view new-chat-view">
-            <div class="logo">
-                MindBot
-            </div>
-        </div>
-        <div id="response-display" class="response-container"></div>
+      <div class="view new-chat-view">
+        <div class="logo">MindBot</div>
+      </div>
+      <div id="response-display" class="response-container"></div>
 
-        <div id="message-form">
-            <form id="chat-form">
-                <div class="message-wrapper">
-                    <textarea id="message" name="message" rows="1" placeholder="Send a message"></textarea>
-                    <button type="submit" class="send-button"><i class="fa fa-paper-plane"></i>Send</button>
-                </div>
-            </form>
-        </div>
+      <div id="message-form">
+        <form id="chat-form">
+          <div class="message-wrapper">
+            <textarea
+              id="message"
+              name="message"
+              rows="1"
+              placeholder="Send a message"
+            ></textarea>
+            <button type="submit" class="send-button">
+              <i class="fa fa-paper-plane"></i>Send
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-     <script>
-        $(document).ready(function() {
-            $('#chat-form').on('submit', function(e) {
-                e.preventDefault();
-                var messageData = { message: $('#message').val() };
-				$("#text").val("");
-                $('#response-display').append(`<div class="bot-message jayesh">${messageData.message}</div>`);
-                console.log("Sending message:", messageData);
-                $.ajax({
-                    url: '/chat',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(messageData),
-                    dataType: 'json',
-                    success: function(response) {
-                        console.log("Chat response:", response);
-                        // Append the bot's response to the response-display element
-                        $('#response-display').append(`<div class="bot-message">${response.response}</div>`);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("Chat error:", error);
-                        $('#response-display').prepend('<div class="alert alert-danger" role="alert">An error occurred while sending your message.</div>');
-                    }
-                });
-                $('#message').val('');
-            });
-        });        
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#chat-form").on("submit", function (e) {
+          e.preventDefault();
+          var messageData = { message: $("#message").val() };
+          $("#text").val("");
+          $("#response-display").append(
+            `<div class="bot-message jayesh">${messageData.message}</div>`
+          );
+          console.log("Sending message:", messageData);
+          $.ajax({
+            url: "/chat",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageData),
+            dataType: "json",
+            success: function (response) {
+              console.log("Chat response:", response);
+              $("#response-display").append(
+                `<div class="bot-message">MindBot ${response.response}</div>`
+              );
+            },
+            error: function (xhr, status, error) {
+              console.log("Chat error:", error);
+              $("#response-display").prepend(
+                '<div class="alert alert-danger" role="alert">An error occurred while sending your message.</div>'
+              );
+            },
+          });
+          $("#message").val("");
+        });
+      });
     </script>
     <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: '/get_username',
-                type: 'GET',
-                success: function(response) {
-                    $('#username').text(response.username);
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error fetching username:", error);
-                }
-            });
-    
-            // Logout functionality
-            $('#google-logout-button').on('click', function() {
-                $.ajax({
-                    url: '/logout',
-                    type: 'POST',
-                    success: function(response) {
-                        // Redirect to login page or handle as needed
-                        window.location.href = '/login';
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("Logout error:", error);
-                    }
-                });
-            });
-        });        
-    </script>    
-</body>
+      $(document).ready(function () {
+        $.ajax({
+          url: "/get_username",
+          type: "GET",
+          success: function (response) {
+            $("#username").text(response.username);
+            $("#initial").text(response.initial);
+          },
+          error: function (xhr, status, error) {
+            console.log("Error fetching username:", error);
+          },
+        });
+
+        // Logout functionality
+        $("#google-logout-button").on("click", function () {
+          $.ajax({
+            url: "/logout",
+            type: "POST",
+            success: function (response) {
+              // Redirect to login page or handle as needed
+              window.location.href = "/login";
+            },
+            error: function (xhr, status, error) {
+              console.log("Logout error:", error);
+            },
+          });
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#new-chat-button").on("click", function () {
+          location.reload();
+        });
+      });
+    </script>
+  </body>
 </html>

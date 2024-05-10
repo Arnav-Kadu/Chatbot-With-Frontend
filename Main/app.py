@@ -50,8 +50,9 @@ class GeminiProLLM(LLM):
 Also if your answer includes points,list them in bullet points while displaying the answer
 
 Start by greeting the user warmly and introducing the chatbot as a supportive companion for practicing cognitive behavioral therapy (CBT).
+If the user directly tell the problem try to help he directly.
 
-Prompt the user to share their current thoughts, feelings, or concerns. Ask open-ended questions to understand the user's emotions, triggers, and cognitive distortions.
+Prompt the user to share their current thoughts, feelings, or concerns. Ask open-ended questions to understand the user's emotions, triggers, and cognitive distortions. After getting enough data try suggesting things that they can do to overcome the issue they are facing.
 
 Guide the user through identifying and labeling their thoughts or beliefs associated with their emotions. Encourage the user to recognize any negative or unhelpful thought patterns.
 
@@ -140,17 +141,20 @@ def chat():
     user_input = request.json["message"]
     response = chatchain(user_input)["response"]
     return jsonify({"response": response})
+
 @app.route("/get_username", methods=["GET"])
 def get_username():
     if 'user' in session:
         email = session['user']
         username = email.split('@')[0] 
-        return jsonify({'username': username})
+        return jsonify({'username': username,'initial':username[0]})
     else:
         return jsonify({'username': None})
+    
 @app.route("/logout",methods=["GET","POST"])
 def logout():
     session.pop('user')
     return redirect('/')
+
 if __name__ == "__main__":
     app.run(debug=True)

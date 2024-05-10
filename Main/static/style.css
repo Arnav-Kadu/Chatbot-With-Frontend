@@ -556,6 +556,8 @@ p {
 }
 .jayesh{
     /* display:flex; */
+    background-color: var(--color-assistant-text);
+    color: var(--color-white);
     justify-content: flex-end;
     text-align: right;
     margin-left:20%;
