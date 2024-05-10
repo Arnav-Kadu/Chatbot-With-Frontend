@@ -15,7 +15,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>Mind Full</title>
+    <title>MindFull</title>
   </head>
   <body>
     <nav id="sidebar">
@@ -90,7 +90,7 @@
             success: function (response) {
               console.log("Chat response:", response);
               $("#response-display").append(
-                `<div class="bot-message">MindBot ${response.response}</div>`
+                `<div class="bot-message">${response.response}</div>`
               );
             },
             error: function (xhr, status, error) {
