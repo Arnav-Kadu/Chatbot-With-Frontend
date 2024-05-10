@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,session
 from dotenv import load_dotenv
 from typing import List, Optional, Any, Mapping
 import google.generativeai as genai
@@ -8,10 +8,21 @@ from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain_core.language_models.llms import LLM
 import os
 from flask import make_response
-
+import pyrebase
 
 app = Flask(__name__)
-
+firebaseConfig = {
+  'apiKey': "AIzaSyB3Dya2tTYef2VlaxZVQVxkO_Avfc5UOfg",
+  'authDomain': "mindbot-9bcc7.firebaseapp.com",
+  'projectId': "mindbot-9bcc7",
+  'storageBucket': "mindbot-9bcc7.appspot.com",
+  'messagingSenderId': "80842807023",
+  'appId': "1:80842807023:web:68f43ebf6e5875d21f6d1a",
+  'databaseURL':''
+}
+firbase=pyrebase.initialize_app(firebaseConfig)
+auth=firbase.auth()
+app.secret_key='secret'
 # Load environment variables
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -58,6 +69,7 @@ End the conversation on a positive note, expressing confidence in the user's abi
 Also if the question is not about mental health or support tackle it properly instructing that you are here for mental health support.
    IMPORTANT NOTE: Just the response as you are directly talking
    you also understand all languages also response in respective language if needed.
+   You please give response with html tags so that i can directly render it (don't add ```html in it also not last line spaces should be left) use <b> tag whereever you bold tags, paragraph tags and also proper line breaks
         '''
         gemini_pro_model = genai.GenerativeModel("gemini-1.5-pro-latest", system_instruction=system_instruction)
         
@@ -83,11 +95,44 @@ def load_chain():
 
 chatchain = load_chain()
 
-@app.route("/login")
+from flask import request
+
+@app.route("/login", methods=["POST","GET"])
 def login():
+    if ('user' in session):
+        return redirect('/')
+    if request.method=='POST':
+        email = request.form.get('loginId')
+        password = request.form.get('password')
+
+        try:
+            print(email)
+            print(password)
+            user = auth.sign_in_with_email_and_password(email, password)
+            session['user'] = email
+            return redirect('/')
+        except:
+            return 'Failed to login'
     return render_template("login.html")
+
+@app.route("/signup", methods=["POST","GET"])
+def signup():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if request.method=='POST':
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            session['user'] = email
+            return redirect('/')
+        except:
+            return 'Signup failed'
+    
+    return render_template("signup.html")
+
 @app.route("/")
 def home():
+    if 'user' not in session:
+        return redirect('/login')
     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
@@ -95,6 +140,17 @@ def chat():
     user_input = request.json["message"]
     response = chatchain(user_input)["response"]
     return jsonify({"response": response})
-
+@app.route("/get_username", methods=["GET"])
+def get_username():
+    if 'user' in session:
+        email = session['user']
+        username = email.split('@')[0] 
+        return jsonify({'username': username})
+    else:
+        return jsonify({'username': None})
+@app.route("/logout",methods=["GET","POST"])
+def logout():
+    session.pop('user')
+    return redirect('/')
 if __name__ == "__main__":
     app.run(debug=True)

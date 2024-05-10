@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Login</title>
+    <title>Chatbot Signup</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='login-style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
     <div class="login-container">
-        <h2>Login to MindBot</h2>
-        <form id="login-form" action="/login" method="post">
+        <h2>Sign Up for MindBot</h2>
+        <form id="signup-form" action="/signup" method="post">
             <div class="input-group">
-                <label for="loginId">Login ID:</label>
-                <input type="text" id="loginId" name="loginId">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password">
             </div>
-            <button type="submit" class="signup-button">Login</button>
+            <button type="submit" class="signup-button">Register</button>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js"></script>

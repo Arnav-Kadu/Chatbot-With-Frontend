@@ -541,7 +541,7 @@ p {
 .response-container {
     padding: 20px;
     overflow-y: auto;
-    max-height: 300px; /* Adjust the maximum height as needed */
+    max-height: 80%; /* Adjust the maximum height as needed */
 }
 
 .bot-message {
@@ -549,12 +549,16 @@ p {
     color: var(--color-assistant-text);
     border-radius: 10px;
     padding: 10px;
+    margin-left:20%;
     margin-bottom: 10px;
-    max-width: 70%; /* Adjust the maximum width as needed */
+    max-width: 60%; /* Adjust the maximum width as needed */
     word-wrap: break-word;
 }
 .jayesh{
-    display:flex;
+    /* display:flex; */
     justify-content: flex-end;
     text-align: right;
+    margin-left:20%;
+    width: fit-content;
+    margin: right;
 }
